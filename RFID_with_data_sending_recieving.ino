@@ -7,6 +7,10 @@
 
 #define SS_PIN 21
 #define RST_PIN 22
+//MISO 19
+//MOSI 23
+//SDA 21
+//SCK 18
 #define relay 2
 
 int blockNum1 = 1;
@@ -233,7 +237,7 @@ void ReadDataFromBlock2(int blockNum, byte readBlockData2[])
 }
 void readfrmspreadsheet(void){
   HTTPClient http;
-  Serial.print("Making a request to read the nymber of students in class");
+  Serial.print("Making a request to read the number of students in class");
   http.begin(readurl.c_str()); //Specify the URL and certificate
   http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
   int httpCode = http.GET();
