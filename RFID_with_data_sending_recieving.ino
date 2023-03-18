@@ -11,8 +11,8 @@
 //MOSI 23
 //SDA 21
 //SCK 18
-#define relay 2
-
+#define relay 4
+#define relay2 15
 int blockNum1 = 1;
 int blockNum2 = 2;
 
@@ -36,8 +36,8 @@ const String data1 = "https://script.google.com/macros/s/AKfycbwigW0XA4ceq4NiVx8
 String data2;
 WiFiClient client;
 // WiFi
-const char* ssid = "D_406";              // Your personal network SSID
-const char* wifi_password = "98609860"; // Your personal network password
+const char* ssid = "OnePlus Nord2 5G";              // Your personal network SSID
+const char* wifi_password = "abcdefghij"; // Your personal network password
 
 
 void setup() {
@@ -50,6 +50,8 @@ void setup() {
   connect_WiFi();
   pinMode(relay,OUTPUT);
   digitalWrite(relay,LOW);
+  pinMode(relay2,OUTPUT);
+  digitalWrite(relay2,LOW);
 }
 
 void loop()
@@ -102,11 +104,12 @@ void loop()
     // Or, if you happy to ignore the SSL certificate, then use the following line instead:
     // client->setInsecure();
 
+    //Serial.println(String((char*)readBlockData1) + String((char*)readBlockData2));
     data2 = data1 + String((char*)readBlockData1) + String((char*)readBlockData2);
     //Serial.println(data2.length());
-    data2.remove(126,14);
+    data2.remove(126,11);
     data2.trim();
-    //Serial.println(data2);
+    //Serial.println("data2:"+data2);
 
     HTTPClient http;
     http.begin(data2);
@@ -136,11 +139,20 @@ void loop()
   Serial.println(number);
   if(number<1){
     digitalWrite(relay,LOW);
-    Serial.println("mains off");
+    digitalWrite(relay2,LOW);
+    Serial.println("Both lights off");
   }
+  else if(number==1){
+    digitalWrite(relay,HIGH);
+    Serial.println("light 1 on");
+    digitalWrite(relay2,LOW);
+    Serial.println("light 2 off");
+    }
   else{
     digitalWrite(relay,HIGH);
-    Serial.println("mains on");
+    Serial.println("light 1 on");
+    digitalWrite(relay2,HIGH);
+    Serial.println("light 2 on");
     }
 }
 
